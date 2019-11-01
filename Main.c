@@ -2,9 +2,9 @@
 
 //numero maximo de estudantes
 #define	MAX 20
-
+//alo
 //numero maximo de caracteres no nome
-#define NOME 60
+#define NOME 50
 
 //numero de caracteres no CPF (123.456.789-00)
 #define CPF 14
