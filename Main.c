@@ -31,7 +31,7 @@ typedef struct Estudante est;
 void cadastrar(est A[], int pont);
 
 //verificacao do nome
-char nomeVer(char* nome[]);
+char nomeVer(char nome[]);
 
 //funcao de listar todos os alunos
 void listar(est A[], int pont);
@@ -55,9 +55,11 @@ int main(){
 	//ponteiro do ID
 	int idPont = 0;
 	est aluno[MAX];
-	char escolha = menu();
+	char escolha;
 
 	do{
+	    escolha = menu();
+	    
 		switch(escolha){
 			case '1':
 				if(idPont == MAX){
@@ -178,20 +180,22 @@ void sair(){
 	return;
 }
 
-char nomeVer(char* nome[]){
+char nomeVer(char nome[]){
 	/*
 	verificar se o nome contem apenas letras 
 	e nenhum caracter especial
 	*/
 
 	int i;
-	int tam = strlen(nome);
+	int tam = strlen(nome) - 1;
 
 
 	for(i = 0; i < tam; i++){
 		if(nome[i] == 'a' || nome[i] == 'b' || nome[i] == 'c' || nome[i] == 'd' || nome[i] == 'e' || nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' || nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' || nome[i] == 't' || nome[i] == 'u' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' || nome[i] == 'y' || nome[i] == 'z' || nome[i] == ' '){
 			if (i < tam - 1) continue;
-			else return '1';
+			else{
+			    return '1';
+			}
 		}
 		else if(nome[i] == 'A' || nome[i] == 'B' || nome[i] == 'C' || nome[i] == 'D' || nome[i] == 'E' || nome[i] == 'F' || nome[i] == 'G' || nome[i] == 'H' || nome[i] == 'I' || nome[i] == 'J' || nome[i] == 'K' || nome[i] == 'L' || nome[i] == 'M' || nome[i] == 'N' || nome[i] == 'O' || nome[i] == 'P' || nome[i] == 'Q' || nome[i] == 'R' || nome[i] == 'S' || nome[i] == 'T' || nome[i] == 'U' || nome[i] == 'V' || nome[i] == 'W' || nome[i] == 'X' || nome[i] == 'Y' || nome[i] == 'Z'){
 			if (i < tam - 1) continue;
