@@ -9,6 +9,8 @@
 //numero de caracteres no CPF (123.456.789-00)
 #define CPF 14
 
+char resto;
+
 struct Data{
 	int dia;
 	int mes;
@@ -36,6 +38,9 @@ char nomeVer(char nome[]);
 //verificacao da data
 char dataVer(int d, int m, int a);
 
+//verificacao do CPF
+char cpfVer(char c[]);
+
 //funcao de listar todos os alunos
 void listar(est A[], int pont);
 
@@ -62,7 +67,7 @@ int main(){
 
 	do{
 	    escolha = menu();
-	    
+
 		switch(escolha){
 			case '1':
 				if(idPont == MAX){
@@ -70,8 +75,6 @@ int main(){
 					break;
 				}
 				cadastrar(aluno, idPont);
-				//puts(aluno[idPont].nome);
-				//printf("%d/%d/%d\n\n", aluno[idPont].nasc.dia, aluno[idPont].nasc.mes, aluno[idPont].nasc.ano);
 				idPont++;
 				break;
 			case '2':
@@ -126,9 +129,11 @@ void cadastrar(est A[], int pont){
 	A[pont].id = pont;
 
 	//pegar o nome
+	scanf("%c", &resto);
 	do{
 		printf("Nome do aluno: ");
-		fgets(A[pont].nome, NOME +1 , stdin);
+		gets(A[pont].nome);
+//		puts(A[pont].nome);
 		veri = nomeVer(A[pont].nome);
 		if (veri == '0'){
 			printf("Nome invalido! (verificar se nao foi digitado algum numero ou caracter especial)\n");
@@ -139,9 +144,22 @@ void cadastrar(est A[], int pont){
 	do{
 		printf("Data de Nascimento(dd/mm/aaaa): ");
 		scanf("%d/%d/%d", &A[pont].nasc.dia, &A[pont].nasc.mes, &A[pont].nasc.ano);
-		veri = nascVer(A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
+		veri = dataVer(A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
+//		printf("%d/%d/%d\n", A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
 		if (veri == '0'){
 			printf("Data de nascimento invalida! (verificar se a data foi digitada de maneira correta)\n");
+		}
+	}while(veri == '0');
+
+	//pegar o CPF
+	scanf("%c", &resto);
+	do{
+		printf("Digite o CPF(Ex.: 123.456.789-00): ");
+		gets(A[pont].cpf);
+//		puts(A[pont].cpf);
+		veri = cpfVer(A[pont].cpf);
+		if (veri == '0'){
+			printf("CPF invalido! (verfica se digitado de maneira correta - 123.456.789-00)\n");
 		}
 	}while(veri == '0');
 
@@ -221,7 +239,6 @@ char nomeVer(char nome[]){
 
 }
 
-
 char dataVer(int d, int m, int a){
 	/*
 	verificar se a data faz sentido
@@ -235,6 +252,34 @@ char dataVer(int d, int m, int a){
 		else if(m == 11){
 			if (d > 8) return '0';
 		}
+	}
+	return '1';
+}
+
+char cpfVer(char c[]){
+	/*
+	123.456.789-00
+	verificar se o CPF tem 14 caracteres
+	verificar se possui pontos e tracos nas posicoes corretas
+	e verificar se eh apenas numeros
+	*/
+
+	puts(c);
+
+	int i;
+	if (strlen(c) != CPF) return '0';
+
+	for (i = 0; i < CPF; i++){
+		if (i == 3 || i == 7){
+			if (c[i] != '.') return '0';
+		}
+		else if (i == 11){
+			if (c[i] != '-') return '0';
+		}
+		else{
+			if (c[i] != '0' && c[i] != '1' && c[i] != '2' && c[i] != '3' && c[i] != '4' && c[i] != '5' && c[i] != '6' && c[i] != '7' && c[i] != '8' && c[i] != '9') return '0';
+		}
+
 	}
 	return '1';
 }
