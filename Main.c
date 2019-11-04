@@ -33,6 +33,9 @@ void cadastrar(est A[], int pont);
 //verificacao do nome
 char nomeVer(char nome[]);
 
+//verificacao da data
+char dataVer(int d, int m, int a);
+
 //funcao de listar todos os alunos
 void listar(est A[], int pont);
 
@@ -67,6 +70,8 @@ int main(){
 					break;
 				}
 				cadastrar(aluno, idPont);
+				//puts(aluno[idPont].nome);
+				//printf("%d/%d/%d\n\n", aluno[idPont].nasc.dia, aluno[idPont].nasc.mes, aluno[idPont].nasc.ano);
 				idPont++;
 				break;
 			case '2':
@@ -109,8 +114,8 @@ char menu(){
 void cadastrar(est A[], int pont){
 	/*
 	Pedir pelo:
-	Nome
-	Data de nascimento
+	(feito)Nome
+	(feito)Data de nascimento
 	CPF
 	Deixar situacao do cadastro como valido (=1)
 	(feito) Caso pont == MAX informar usuario e nao chamar essa funcao
@@ -119,16 +124,26 @@ void cadastrar(est A[], int pont){
 	//char de verificacao
 	char veri;
 	A[pont].id = pont;
+
+	//pegar o nome
 	do{
 		printf("Nome do aluno: ");
-		fgets(A[pont].nome, NOME-1, stdin);
+		fgets(A[pont].nome, NOME +1 , stdin);
 		veri = nomeVer(A[pont].nome);
 		if (veri == '0'){
 			printf("Nome invalido! (verificar se nao foi digitado algum numero ou caracter especial)\n");
 		}
 	}while(veri == '0');
 
-	puts(A[pont].nome);
+	//pegar a data de nascimento
+	do{
+		printf("Data de Nascimento(dd/mm/aaaa): ");
+		scanf("%d/%d/%d", &A[pont].nasc.dia, &A[pont].nasc.mes, &A[pont].nasc.ano);
+		veri = nascVer(A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
+		if (veri == '0'){
+			printf("Data de nascimento invalida! (verificar se a data foi digitada de maneira correta)\n");
+		}
+	}while(veri == '0');
 
 	return;
 }
@@ -204,4 +219,22 @@ char nomeVer(char nome[]){
 		else return '0';
 	}
 
+}
+
+
+char dataVer(int d, int m, int a){
+	/*
+	verificar se a data faz sentido
+	*/
+
+	if (d > 30) return '0';
+	if (m > 12) return '0';
+	if (a > 2019) return '0';
+	else if (a == 2019){
+		if (m > 11) return '0';
+		else if(m == 11){
+			if (d > 8) return '0';
+		}
+	}
+	return '1';
 }
