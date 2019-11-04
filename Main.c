@@ -59,6 +59,8 @@ char menu();
 //funcao de sair do programa
 void sair();
 
+int i;
+
 int main(){
 	//ponteiro do ID
 	int idPont = 0;
@@ -78,6 +80,7 @@ int main(){
 				idPont++;
 				break;
 			case '2':
+				listar(aluno, idPont);
 				break;
 			case '3':
 				break;
@@ -119,9 +122,9 @@ void cadastrar(est A[], int pont){
 	Pedir pelo:
 	(feito)Nome
 	(feito)Data de nascimento
-	CPF
-	Deixar situacao do cadastro como valido (=1)
-	(feito) Caso pont == MAX informar usuario e nao chamar essa funcao
+	(feito)CPF
+	(feito)Deixar situacao do cadastro como valido (=1)
+	(feito)Caso pont == MAX informar usuario e nao chamar essa funcao
 	*/
 
 	//char de verificacao
@@ -163,14 +166,28 @@ void cadastrar(est A[], int pont){
 		}
 	}while(veri == '0');
 
+	A[pont].situacao = 1;
+
 	return;
 }
 
-void listar(est A[], int cad){
+void listar(est A[], int pont){
 	/*
 	Imprir todas as informacoes de
 	todos os cadastros validos
 	*/
+
+	for(i = 0; i < pont; i++){
+		if(A[i].situacao == 1){
+				printf("Nome: ");
+				puts(A[i].nome);
+				printf("Data de nascimento: ");
+				printf("%d/%d/%d\n", A[i].nasc.dia, A[i].nasc.mes, A[i].nasc.ano);
+				printf("CPF: ");
+				puts(A[i].cpf);
+				printf("\n");
+		}
+	}
 	return;
 }
 
@@ -219,7 +236,6 @@ char nomeVer(char nome[]){
 	e nenhum caracter especial
 	*/
 
-	int i;
 	int tam = strlen(nome) - 1;
 
 
@@ -264,9 +280,6 @@ char cpfVer(char c[]){
 	e verificar se eh apenas numeros
 	*/
 
-	puts(c);
-
-	int i;
 	if (strlen(c) != CPF) return '0';
 
 	for (i = 0; i < CPF; i++){
