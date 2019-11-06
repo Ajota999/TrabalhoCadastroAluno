@@ -131,8 +131,8 @@ void cadastrar(est A[], int pont){
 	char veri;
 	A[pont].id = pont;
 
-	//pegar o nome
 	scanf("%c", &resto);
+	//pegar o nome
 	do{
 		printf("Nome do aluno: ");
 		gets(A[pont].nome);
@@ -211,6 +211,15 @@ void atualizar(est A[]){
 	CPF
 	mudar todas as informacoes
 	*/
+
+	int ID;
+	printf("Iforme o ID do cadastro do aluno que se deseja atualizar: ");
+	scanf("%d", &ID);
+
+	cadastrar(A[], ID);
+
+	printf("Informacoes atualizadas!\n")
+
 	return;
 }
 
@@ -220,6 +229,15 @@ void remover(est A[]){
 	Deixar invalido a sua
 	situacao de cadastro (=0)
 	*/
+
+	int ID;
+	printf("Iforme o ID do cadastro do aluno que se deseja remover: ");
+	scanf("%d", &ID);
+
+	A[ID].situacao = 0;
+
+	printf("Situacao do cadastro do aluno agora inativa!\n");
+
 	return;
 }
 
@@ -295,4 +313,5 @@ char cpfVer(char c[]){
 
 	}
 	return '1';
+
 }
