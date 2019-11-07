@@ -10,8 +10,6 @@
 //numero de caracteres no CPF (123.456.789-00)
 #define CPF 14
 
-char resto;
-
 struct Data{
 	int dia;
 	int mes;
@@ -54,18 +52,19 @@ void atualizar(est A[]);
 //funcao que invalida o cadastro do aluno
 void remover(est A[]);
 
-//funcao do menu do usuario (por enquanto temporario)
+//funcao do menu do usuario
 char menu();
 
 //funcao de sair do programa
 void sair();
 
-//declaracao de funcoes chatas pra remover warnings
+//declaracao de funcoes pra remover warnings
 void gets();
 int isalpha();
 int strncmp();
 
 int i;
+char resto;
 
 int main(){
 	//ponteiro do ID
@@ -143,15 +142,6 @@ char menu(){
 }
 
 void cadastrar(est A[], int pont){
-	/*
-	Pedir pelo:
-	(feito)Nome
-	(feito)Data de nascimento
-	(feito)CPF
-	(feito)Deixar situacao do cadastro como valido (=1)
-	(feito)Caso pont == MAX informar usuario e nao chamar essa funcao
-	*/
-
 	//char de verificacao
 	char veri;
 	A[pont].id = pont;
@@ -161,7 +151,6 @@ void cadastrar(est A[], int pont){
 	do{
 		printf("Nome do aluno: ");
 		gets(A[pont].nome);
-//		puts(A[pont].nome);
 		veri = nomeVer(A[pont].nome);
 		if (veri == '0'){
 			printf("Nome invalido! (verificar se nao foi digitado algum numero ou caracter especial)\n");
@@ -173,7 +162,6 @@ void cadastrar(est A[], int pont){
 		printf("Data de Nascimento(dd/mm/aaaa): ");
 		scanf("%d/%d/%d", &A[pont].nasc.dia, &A[pont].nasc.mes, &A[pont].nasc.ano);
 		veri = dataVer(A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
-//		printf("%d/%d/%d\n", A[pont].nasc.dia, A[pont].nasc.mes, A[pont].nasc.ano);
 		if (veri == '0'){
 			printf("Data de nascimento invalida! (verificar se a data foi digitada de maneira correta)\n");
 		}
@@ -184,7 +172,6 @@ void cadastrar(est A[], int pont){
 	do{
 		printf("Digite o CPF(Ex.: 123.456.789-00): ");
 		gets(A[pont].cpf);
-//		puts(A[pont].cpf);
 		veri = cpfVer(A[pont].cpf);
 		if (veri == '0'){
 			printf("CPF invalido! (verfica se digitado de maneira correta - 123.456.789-00)\n");
@@ -197,11 +184,6 @@ void cadastrar(est A[], int pont){
 }
 
 void listar(est A[], int pont){
-	/*
-	Imprir todas as informacoes de
-	todos os cadastros validos
-	*/
-
 	for(i = 0; i < pont; i++){
 		if(A[i].situacao == 1){
 				printf("Nome: ");
@@ -217,19 +199,11 @@ void listar(est A[], int pont){
 }
 
 void pesquisar(est A[], int pont){
-	/*
-	(done)Pedir o nome do aluno
-	(done)Pesquisar atraves de todos os
-	cadastros validos, o nome
-	(done)Mostrar todas as informacoes
-	sobre o cadastro 
-	*/
-	char resto;
 	char pesq[NOME];
-
+	
+	scanf("%c ", &resto);
 	do {
-		printf("Insira o nome para pesquisa: ");
-		scanf("%c ", &resto);
+		printf("Insira o nome para pesquisa: ");	
 		gets(pesq);
 		if (nomeVer(pesq) == '0'){
 			printf("Nome inválido. Verificar o uso de caracteres especiais e números.\n\n");
@@ -251,15 +225,6 @@ void pesquisar(est A[], int pont){
 }
 
 void atualizar(est A[]){
-	/*
-	Pedir o ID do aluno
-	Pedir pelo:
-	Nome
-	Data de nascimento
-	CPF
-	mudar todas as informacoes
-	*/
-
 	int ID;
 	printf("Iforme o ID do cadastro do aluno que se deseja atualizar: ");
 	scanf("%d", &ID);
@@ -272,12 +237,6 @@ void atualizar(est A[]){
 }
 
 void remover(est A[]){
-	/*
-	Solicitar o ID do aluno
-	Deixar invalido a sua
-	situacao de cadastro (=0)
-	*/
-
 	int ID;
 	printf("Iforme o ID do cadastro do aluno que se deseja remover: ");
 	scanf("%d", &ID);
@@ -290,9 +249,6 @@ void remover(est A[]){
 }
 
 void sair(){
-	/*
-	escrever sair bonitinho
-	*/
 	printf("\nEncerrando o programa");
 			for (int i = 0; i < 3; i++){
 				printf(".");
@@ -304,13 +260,7 @@ void sair(){
 }
 
 char nomeVer(char nome[]){
-	/*
-	verificar se o nome contem apenas letras 
-	e nenhum caracter especial
-	*/
-
 	int tam = strlen(nome);
-
 
 	for(i = 0; i < tam; i++){
 		if (isalpha(nome[i]) || nome[i] == ' '){
@@ -323,28 +273,9 @@ char nomeVer(char nome[]){
 			return '0';
 		}
 	}
-
-/*		if(nome[i] == 'a' || nome[i] == 'b' || nome[i] == 'c' || nome[i] == 'd' || nome[i] == 'e' || nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' || nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' || nome[i] == 't' || nome[i] == 'u' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' || nome[i] == 'y' || nome[i] == 'z' || nome[i] == ' '){
-			if (i < tam - 1) continue;
-			else{
-			    return '1';
-			}
-		}
-		else if(nome[i] == 'A' || nome[i] == 'B' || nome[i] == 'C' || nome[i] == 'D' || nome[i] == 'E' || nome[i] == 'F' || nome[i] == 'G' || nome[i] == 'H' || nome[i] == 'I' || nome[i] == 'J' || nome[i] == 'K' || nome[i] == 'L' || nome[i] == 'M' || nome[i] == 'N' || nome[i] == 'O' || nome[i] == 'P' || nome[i] == 'Q' || nome[i] == 'R' || nome[i] == 'S' || nome[i] == 'T' || nome[i] == 'U' || nome[i] == 'V' || nome[i] == 'W' || nome[i] == 'X' || nome[i] == 'Y' || nome[i] == 'Z'){
-			if (i < tam - 1) continue;
-			else return '1';
-		}
-		else return '0';
-	}
-*/
-
 }
 
 char dataVer(int d, int m, int a){
-	/*
-	verificar se a data faz sentido
-	*/
-
 	if (d > 30) return '0';
 	if (m > 12) return '0';
 	if (a > 2019) return '0';
@@ -358,13 +289,6 @@ char dataVer(int d, int m, int a){
 }
 
 char cpfVer(char c[]){
-	/*
-	123.456.789-00
-	verificar se o CPF tem 14 caracteres
-	verificar se possui pontos e tracos nas posicoes corretas
-	e verificar se eh apenas numeros
-	*/
-
 	if (strlen(c) != CPF) return '0';
 
 	for (i = 0; i < CPF; i++){
@@ -380,5 +304,4 @@ char cpfVer(char c[]){
 
 	}
 	return '1';
-
 }
