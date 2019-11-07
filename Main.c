@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //numero maximo de estudantes
-#define	MAX 20
+#define MAX 20
 //numero maximo de caracteres no nome
 #define NOME 50
 
@@ -59,6 +60,11 @@ char menu();
 //funcao de sair do programa
 void sair();
 
+//declaracao de funcoes chatas pra remover warnings
+void gets();
+int isalpha();
+int strncmp();
+
 int i;
 
 int main(){
@@ -83,12 +89,16 @@ int main(){
 				listar(aluno, idPont);
 				break;
 			case '3':
+				pesquisar(aluno, idPont);
 				break;
 			case '4':
+				atualizar(aluno);
 				break;
 			case '5':
+				remover(aluno);
 				break;
 			case '6':
+				sair();
 				break;
 		}
 	}while(escolha != '6');
@@ -100,14 +110,29 @@ char menu(){
 	char esc;
 
 	do{
-		printf("Cadastro de Alunos\n");
-		printf("1- Cadastrar\n");
-		printf("2- Listar\n");
-		printf("3- Pesquisar\n");
-		printf("4- Atualizar\n");
-		printf("5- Remover\n");
-		printf("6- Sair\n");
-
+		char welcome[25] = "CADASTRO DE ALUNOS";
+		printf("\n");
+		printf("+===========================================+\n");
+		printf("§                                           §\n");
+		printf("§");
+		for (int i = 0; i < (43-strlen(welcome))/2; i++) printf(" ");
+		fputs(welcome, stdout);
+		for (int i = 0; i < (43-strlen(welcome))/2; i++) printf(" ");
+		if ((43-strlen(welcome))%2 > 0) printf(" ");
+		printf("§\n");
+		printf("§                                           §\n");
+		printf("+===========================================+\n");
+		printf("§                                           §\n");
+		printf("§  Escolha uma opção:                       §\n");
+		printf("§                                           §\n");
+		printf("§  1. Cadastrar.                            §\n");
+		printf("§  2. Listar.                               §\n");
+		printf("§  3. Pesquisar.                            §\n");
+		printf("§  4. Atualizar.                            §\n");
+		printf("§  5. Remover.                              §\n");
+		printf("§  6. Sair.                                 §\n");
+		printf("§                                           §\n");
+		printf("+===========================================+\n");
 		scanf(" %c", &esc);
 		if(esc != '1' && esc != '2' && esc != '3' && esc != '4' && esc != '5' && esc != '6'){
 			printf("comando invalido!\n");
@@ -193,12 +218,35 @@ void listar(est A[], int pont){
 
 void pesquisar(est A[], int pont){
 	/*
-	Pedir o nome do aluno
-	Pesquisar atraves de todos os
+	(done)Pedir o nome do aluno
+	(done)Pesquisar atraves de todos os
 	cadastros validos, o nome
-	Mostrar todas as informacoes
+	(done)Mostrar todas as informacoes
 	sobre o cadastro 
 	*/
+	char resto;
+	char pesq[NOME];
+
+	do {
+		printf("Insira o nome para pesquisa: ");
+		scanf("%c ", &resto);
+		gets(pesq);
+		if (nomeVer(pesq) == '0'){
+			printf("Nome inválido. Verificar o uso de caracteres especiais e números.\n\n");
+		}
+	} while (nomeVer(pesq) == '0');
+
+	for (int i = 0; i <= pont; i++){
+		if (strncmp(A[i].nome, pesq, strlen(pesq)) == 0){
+			printf("Nome: ");
+			puts(A[i].nome);
+			printf("Data de nascimento: ");
+			printf("%d/%d/%d\n", A[i].nasc.dia, A[i].nasc.mes, A[i].nasc.ano);
+			printf("CPF: ");
+			puts(A[i].cpf);
+			printf("\n");
+		}
+	}
 	return;
 }
 
@@ -216,9 +264,9 @@ void atualizar(est A[]){
 	printf("Iforme o ID do cadastro do aluno que se deseja atualizar: ");
 	scanf("%d", &ID);
 
-	cadastrar(A[], ID);
+	cadastrar(A, ID);
 
-	printf("Informacoes atualizadas!\n")
+	printf("Informacoes atualizadas!\n");
 
 	return;
 }
@@ -245,6 +293,13 @@ void sair(){
 	/*
 	escrever sair bonitinho
 	*/
+	printf("\nEncerrando o programa");
+			for (int i = 0; i < 3; i++){
+				printf(".");
+				fflush(stdout);
+				system("sleep 0.5");
+			}
+			printf(" ^-^\n\n");
 	return;
 }
 
@@ -254,11 +309,22 @@ char nomeVer(char nome[]){
 	e nenhum caracter especial
 	*/
 
-	int tam = strlen(nome) - 1;
+	int tam = strlen(nome);
 
 
 	for(i = 0; i < tam; i++){
-		if(nome[i] == 'a' || nome[i] == 'b' || nome[i] == 'c' || nome[i] == 'd' || nome[i] == 'e' || nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' || nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' || nome[i] == 't' || nome[i] == 'u' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' || nome[i] == 'y' || nome[i] == 'z' || nome[i] == ' '){
+		if (isalpha(nome[i]) || nome[i] == ' '){
+			if (i < tam - 1){
+				continue;
+			} else {
+				return '1';
+			}
+		} else {
+			return '0';
+		}
+	}
+
+/*		if(nome[i] == 'a' || nome[i] == 'b' || nome[i] == 'c' || nome[i] == 'd' || nome[i] == 'e' || nome[i] == 'f' || nome[i] == 'g' || nome[i] == 'h' || nome[i] == 'i' || nome[i] == 'j' || nome[i] == 'k' || nome[i] == 'l' || nome[i] == 'm' || nome[i] == 'n' || nome[i] == 'o' || nome[i] == 'p' || nome[i] == 'q' || nome[i] == 'r' || nome[i] == 's' || nome[i] == 't' || nome[i] == 'u' || nome[i] == 'v' || nome[i] == 'w' || nome[i] == 'x' || nome[i] == 'y' || nome[i] == 'z' || nome[i] == ' '){
 			if (i < tam - 1) continue;
 			else{
 			    return '1';
@@ -270,6 +336,7 @@ char nomeVer(char nome[]){
 		}
 		else return '0';
 	}
+*/
 
 }
 
