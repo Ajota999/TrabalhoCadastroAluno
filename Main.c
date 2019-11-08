@@ -78,7 +78,7 @@ int main(){
 		switch(escolha){
 			case '1':
 				if(idPont == MAX){
-					printf("\n\033[31m~x~ ERRO: Número máximo de alunos cadastrado. ~x~\033[0m\n\n"); 
+					printf("\n\033[31m~x~ ERRO: Número máximo de alunos cadastrados. ~x~\033[0m\n\n"); 
 					break;
 				}
 				printf("\n~x~ Cadastro de aluno. ~x~\n\n"); 
