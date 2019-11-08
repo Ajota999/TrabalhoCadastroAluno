@@ -340,7 +340,8 @@ char nomeVer(char nome[]){
 }
 
 char dataVer(int d, int m, int a){
-	if (m > 12) return '0';
+	if (m > 12 || m < 1) return '0';
+	if (d < 1) return '0';
 	if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12){
 		if (d > 31) return '0';
 	}
